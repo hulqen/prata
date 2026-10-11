@@ -71,7 +71,7 @@ Ta bort raderna om Pianissimo i `~/.hammerspoon/init.lua` och radera projektmapp
 
 ## Upphov och licenser
 
-Utvecklad av Johan Wallén tillsammans med Claude (Opus 5.5) från Anthropic, oktober 2026.
+Utvecklad av Johan Wallén tillsammans med Claude (Opus 5.5) från Anthropic, oktober 2026. Koden är licensierad under [MIT](LICENSE).
 
 Modellen ingår inte i det här arkivet utan hämtas från Hugging Face vid installationen. **Pianissimo** är utvecklad av KlangAI och är en svensk finjustering av NVIDIA Parakeet TDT 0.6B v3. Den är licensierad under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 
