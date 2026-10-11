@@ -27,6 +27,11 @@ ERSATTNINGAR = os.path.join(HERE, "ersattningar.txt")
 PORT = int(os.environ.get("DIKT_PORT", "47821"))
 SR = 16000
 MIN_SEKUNDER = 0.3
+MODELL = "KlangAI/pianissimo-sv-mlx-8bit"
+# Låst modellversion (commit på Hugging Face), så att dikteringen inte ändrar beteende av sig själv.
+# Byt till en nyare commit från https://huggingface.co/KlangAI/pianissimo-sv-mlx-8bit/commits/main
+# för att uppgradera, och kör sedan ./installera.sh.
+MODELL_VERSION = "7b4d528bfb7ce3c66e2a187904f8d86ac39bc6de"
 STARTTID_MAX = 1.0   # längsta väntan på första ljudet efter att mikrofonen öppnats
 STOPPTID_MAX = 3.0   # längsta tillåtna tid för att stänga mikrofonen
 
@@ -43,6 +48,15 @@ def skapa_fran_exempel(mapp=HERE):
         exempel = os.path.join(mapp, f"{namn}.exempel.txt")
         if not os.path.exists(egen) and os.path.exists(exempel):
             shutil.copyfile(exempel, egen)
+
+
+def hamta_modell():
+    """Sökväg till den låsta modellversionen. Hämtas från Hugging Face bara om den saknas lokalt."""
+    from huggingface_hub import snapshot_download
+    try:
+        return snapshot_download(MODELL, revision=MODELL_VERSION, local_files_only=True)
+    except Exception:
+        return snapshot_download(MODELL, revision=MODELL_VERSION)
 
 
 def las_ordlista():
@@ -134,9 +148,8 @@ class Diktering:
         self.chunks = []
 
     def _ladda(self):
-        from huggingface_hub import snapshot_download
         t = time.perf_counter()
-        path = snapshot_download("KlangAI/pianissimo-sv-mlx-8bit")
+        path = hamta_modell()
         sys.path.append(path)
         import pianissimo_mlx
         self.pm = pianissimo_mlx

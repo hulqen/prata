@@ -94,7 +94,7 @@
 <ul>
   <li><strong>Python:</strong> Prata kör i en egen Python-miljö (3.12) i mappen <code>.venv</code> i projektmappen, byggd på Homebrews Python. Vanliga uppdateringar med <code>brew upgrade</code> påverkar den inte, och systemets Python berörs aldrig. Behörigheterna för mikrofon och hjälpmedel ligger på Hammerspoon och påverkas inte heller.</li>
   <li><strong>Om Python ändå skulle försvinna</strong>, till exempel om <code>python@3.12</code> avinstalleras, startar inte tjänsten och ikonen blir orange. Bygg då om miljön genom att köra <code>./installera.sh</code> i projektmappen i Terminal, och välj sedan <em>Starta om tjänsten</em>.</li>
-  <li><strong>Modellen:</strong> vid varje start kontrollerar tjänsten om KlangAI har publicerat en ny version av modellen och hämtar den i så fall. Utan internet används den version som redan finns på datorn.</li>
+  <li><strong>Modellen</strong> är låst till en viss version, så att dikteringen inte ändrar beteende av sig själv. Tjänsten behöver ingen nätanslutning när modellen väl är hämtad. För att uppgradera: byt <code>MODELL_VERSION</code> i <code>dikt_server.py</code> mot en nyare version från modellens sida på Hugging Face, kör <code>./installera.sh</code> och välj <em>Starta om tjänsten</em>.</li>
   <li><strong>Hammerspoon</strong> uppdaterar sig själv och frågar först.</li>
 </ul>
 

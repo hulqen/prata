@@ -56,7 +56,7 @@ Tekniska detaljer som kan vara bra att känna till om du bygger vidare:
 - Tjänsten bevakar processen som startade den (kqueue) och avslutar sig när den försvinner. Annars blir modellen kvar i minnet om Hammerspoon dödas eller kraschar, eftersom Hammerspoons egen avslutningsfunktion då aldrig körs.
 - Timers i Hammerspoon som inte sparas i en variabel kan städas bort innan de körs. Alla fördröjda anrop går därför via `senare()`.
 - Modellens ordlista (boost) kan inte vända stavningar som låter exakt likadant. Höga värden på `boost_alpha` får modellen att upprepa ordlisteorden. Därför finns ersättningslistan.
-- Vid varje start kontrollerar tjänsten om det finns en ny version av modellen. Utan nätanslutning används den version som redan finns på datorn.
+- Modellen är låst till en viss version (`MODELL_VERSION` i `dikt_server.py`), så att dikteringen inte ändrar beteende av sig själv. När modellen väl är hämtad behövs ingen nätanslutning. Byt versionen och kör `./installera.sh` för att uppgradera.
 
 ## Tester
 

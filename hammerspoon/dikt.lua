@@ -4,7 +4,7 @@
 
 local M = {}
 
-M.VERSION = "1.0.2"  -- höj vid ändringar: tredje siffran för rättningar, andra för nya funktioner
+M.VERSION = "1.1.0"  -- höj vid ändringar: tredje siffran för rättningar, andra för nya funktioner
 
 -- Projektmappen räknas fram från var den här filen ligger, så att mappen kan ligga var som helst.
 local HEM = debug.getinfo(1, "S").source:sub(2):match("^(.*)/hammerspoon/[^/]*$")

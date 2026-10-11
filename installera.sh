@@ -16,7 +16,7 @@ uv venv --python 3.12 --allow-existing .venv
 uv pip install --python .venv/bin/python -r requirements.txt
 
 echo "Hämtar modellen (cirka 0,7 GB första gången) …"
-.venv/bin/python -c "from huggingface_hub import snapshot_download; snapshot_download('KlangAI/pianissimo-sv-mlx-8bit')"
+.venv/bin/python -c "import dikt_server; dikt_server.hamta_modell()"  # den låsta versionen, se MODELL_VERSION
 
 for namn in ordlista ersattningar; do
   [ -f "$namn.txt" ] || cp "$namn.exempel.txt" "$namn.txt"
