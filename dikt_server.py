@@ -10,6 +10,7 @@ Lyssnar bara på 127.0.0.1. Endpoints (POST):
 import json
 import os
 import re
+import select
 import shutil
 import sys
 import threading
@@ -198,7 +199,26 @@ class Diktering:
         return text, len(audio) / SR
 
 
+def bevaka_foraldern():
+    """Avslutar tjänsten när processen som startade den (Hammerspoon) försvinner, även om den
+    dödas eller kraschar utan att hinna stänga tjänsten. Annars blir modellen kvar i minnet."""
+    foralder = os.getppid()
+
+    def vanta():
+        kq = select.kqueue()
+        try:
+            kq.control([select.kevent(foralder, select.KQ_FILTER_PROC, select.KQ_EV_ADD, select.KQ_NOTE_EXIT)], 0)
+            kq.control(None, 1)  # blockerar tills föräldern avslutas
+        except ProcessLookupError:
+            pass  # föräldern hann försvinna innan bevakningen startade
+        logga("Processen som startade tjänsten har avslutats, tjänsten stängs")
+        os._exit(0)
+
+    threading.Thread(target=vanta, daemon=True).start()
+
+
 def main():
+    bevaka_foraldern()
     skapa_fran_exempel()
     d = Diktering()
 

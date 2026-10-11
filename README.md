@@ -53,6 +53,7 @@ Tekniska detaljer som kan vara bra att känna till om du bygger vidare:
 
 - MLX kräver att modellen körs i samma tråd som den laddades i. Allt modellarbete går därför via en enda arbetstråd.
 - Om mikrofonen stängs innan macOS har levererat första ljudet kan PortAudio låsa sig. Tjänsten väntar därför på första ljudblocket innan den stänger, och om stängningen ändå hänger sig avslutar den sig själv, så att Hammerspoon startar en ny.
+- Tjänsten bevakar processen som startade den (kqueue) och avslutar sig när den försvinner. Annars blir modellen kvar i minnet om Hammerspoon dödas eller kraschar, eftersom Hammerspoons egen avslutningsfunktion då aldrig körs.
 - Timers i Hammerspoon som inte sparas i en variabel kan städas bort innan de körs. Alla fördröjda anrop går därför via `senare()`.
 - Modellens ordlista (boost) kan inte vända stavningar som låter exakt likadant. Höga värden på `boost_alpha` får modellen att upprepa ordlisteorden. Därför finns ersättningslistan.
 - Vid varje start kontrollerar tjänsten om det finns en ny version av modellen. Utan nätanslutning används den version som redan finns på datorn.

@@ -9,6 +9,7 @@ fel=0
 for t in test_ersattningar test_lar_in test_exempel test_tradar test_server; do
   if $PY test/$t.py "$MAPP" test/test.aiff >/dev/null 2>&1; then echo "OK   $t"; else echo "FEL  $t"; fel=1; fi
 done
+if test/test_foralder.sh >/dev/null 2>&1; then echo "OK   test_foralder"; else echo "FEL  test_foralder"; fel=1; fi
 if [ -z "$UTAN_HAMMERSPOON" ]; then
   if test/test_redo.sh >/dev/null 2>&1; then echo "OK   test_redo"; else echo "FEL  test_redo"; fel=1; fi
 fi
