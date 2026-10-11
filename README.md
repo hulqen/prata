@@ -1,4 +1,4 @@
-# Pianissimo-diktering
+# Prata
 
 Diktering på svenska i valfri app på Mac. Håll in höger Option, prata och släpp, så klistras texten in där markören står. Talet tolkas av den svenska taligenkänningsmodellen [Pianissimo från KlangAI](https://huggingface.co/KlangAI/pianissimo-sv-mlx-8bit), som körs helt lokalt på datorn. Inget ljud och ingen text skickas ut på nätet.
 
@@ -15,8 +15,8 @@ Installationsskriptet installerar det som saknas av [uv](https://github.com/astr
 ## Installation
 
 ```bash
-git clone https://github.com/hulqen/pianissimo-diktering.git ~/pianissimo
-cd ~/pianissimo
+git clone https://github.com/hulqen/prata.git ~/prata
+cd ~/prata
 ./installera.sh
 ```
 
@@ -67,7 +67,7 @@ Testet `test_redo` startar om Hammerspoon. Hoppa över det med `UTAN_HAMMERSPOON
 
 ## Avinstallation
 
-Ta bort raderna om Pianissimo i `~/.hammerspoon/init.lua` och radera projektmappen. Modellen ligger i `~/.cache/huggingface/hub/models--KlangAI--pianissimo-sv-mlx-8bit` och kan raderas separat.
+Ta bort raderna om Prata i `~/.hammerspoon/init.lua` och radera projektmappen. Modellen ligger i `~/.cache/huggingface/hub/models--KlangAI--pianissimo-sv-mlx-8bit` och kan raderas separat.
 
 ## Upphov och licenser
 

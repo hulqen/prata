@@ -1,4 +1,4 @@
-"""Lokal dikteringstjänst: håller Pianissimo laddad, spelar in på begäran och transkriberar.
+"""Prata – lokal dikteringstjänst: håller modellen Pianissimo laddad, spelar in på begäran och transkriberar.
 
 Lyssnar bara på 127.0.0.1. Endpoints (POST):
   /start  – börja spela in

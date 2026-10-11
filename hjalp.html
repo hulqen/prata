@@ -2,7 +2,7 @@
 <html lang="sv">
 <head>
 <meta charset="utf-8">
-<title>Pianissimo – hjälp</title>
+<title>Prata – hjälp</title>
 <style>
   :root { --bg: #ffffff; --text: #1d1d1f; --dim: #6e6e73; --line: #e5e5ea; --kbd: #f2f2f7; --accent: #c0392b; }
   @media (prefers-color-scheme: dark) {
@@ -27,7 +27,7 @@
 </head>
 <body>
 
-<h1>Pianissimo</h1>
+<h1>Prata</h1>
 <p class="ingress">Diktering på svenska i valfri app. Talet tolkas av modellen Pianissimo från KlangAI, som körs helt på den här datorn. Inget ljud och ingen text skickas ut på nätet.</p>
 
 <div class="nu"><strong>Just nu:</strong> {{INSTRUKTION}}.</div>
@@ -51,7 +51,7 @@
 <p>Den orangea pillren med en vit mikrofon längst upp till höger är macOS egen indikator. Den visas när något program använder mikrofonen och går inte att stänga av. Lyser den när du inte dikterar: klicka på den, så visar Kontrollcenter vilket program det är.</p>
 
 <h2>När det blir fel ord</h2>
-<p>Det finns två sätt att lära Pianissimo att stava rätt. De gör olika saker.</p>
+<p>Det finns två sätt att lära Prata att stava rätt. De gör olika saker.</p>
 <ul>
   <li><strong>Ersättningar</strong> byter ut en felstavning mot rätt stavning efter att talet tolkats. Använd dem när modellen konsekvent skriver fel, särskilt när två stavningar låter exakt likadant, som <em>Waldemar</em> och <em>Valdemar</em>. Det här är det säkraste sättet.</li>
   <li><strong>Ordlistan</strong> gör att modellen hellre väljer ett visst ord medan den lyssnar. Den hjälper när modellen tvekar mellan ord som låter olika, till exempel namn och facktermer. Den kan inte rätta W/V eller andra stavningar som låter likadant.</li>
@@ -92,7 +92,7 @@
 
 <h2>Uppdateringar</h2>
 <ul>
-  <li><strong>Python:</strong> Pianissimo kör i en egen Python-miljö (3.12) i mappen <code>.venv</code> i projektmappen, byggd på Homebrews Python. Vanliga uppdateringar med <code>brew upgrade</code> påverkar den inte, och systemets Python berörs aldrig. Behörigheterna för mikrofon och hjälpmedel ligger på Hammerspoon och påverkas inte heller.</li>
+  <li><strong>Python:</strong> Prata kör i en egen Python-miljö (3.12) i mappen <code>.venv</code> i projektmappen, byggd på Homebrews Python. Vanliga uppdateringar med <code>brew upgrade</code> påverkar den inte, och systemets Python berörs aldrig. Behörigheterna för mikrofon och hjälpmedel ligger på Hammerspoon och påverkas inte heller.</li>
   <li><strong>Om Python ändå skulle försvinna</strong>, till exempel om <code>python@3.12</code> avinstalleras, startar inte tjänsten och ikonen blir orange. Bygg då om miljön genom att köra <code>./installera.sh</code> i projektmappen i Terminal, och välj sedan <em>Starta om tjänsten</em>.</li>
   <li><strong>Modellen:</strong> vid varje start kontrollerar tjänsten om KlangAI har publicerat en ny version av modellen och hämtar den i så fall. Utan internet används den version som redan finns på datorn.</li>
   <li><strong>Hammerspoon</strong> uppdaterar sig själv och frågar först.</li>
@@ -102,7 +102,7 @@
 <p>Allt finns i projektmappen, i den här installationen <code>{{MAPP}}</code>. Tjänsten startas av Hammerspoon, som startar vid inloggning om du slagit på det i Hammerspoons inställningar. Mer om installation och tester finns i <code>README.md</code>.</p>
 
 <footer>
-  <p><strong>Pianissimo-diktering, version {{VERSION}}</strong></p>
+  <p><strong>Prata, version {{VERSION}}</strong></p>
   <p>Utvecklad av Johan Wallén tillsammans med Claude (Opus 5.5) från Anthropic, oktober 2026.</p>
   <p>Talet tolkas av modellen Pianissimo från KlangAI (<code>KlangAI/pianissimo-sv-mlx-8bit</code>). Den är en svensk finjustering av NVIDIA Parakeet TDT 0.6B v3, i en 8-bitarsversion för Apple silicon.</p>
   <p>Byggd med parakeet-mlx 0.5.2, MLX, sounddevice och Hammerspoon.</p>

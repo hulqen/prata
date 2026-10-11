@@ -1,10 +1,10 @@
--- Pianissimo-diktering: håll in (eller tryck på) en tangent och prata, texten klistras in där markören står.
+-- Prata: håll in (eller tryck på) en tangent och prata, texten klistras in där markören står.
 -- Tangent och läge väljs i menyraden och sparas med hs.settings.
 -- Laddas från ~/.hammerspoon/init.lua (se hammerspoon/init.exempel.lua). Startar och övervakar Python-tjänsten själv.
 
 local M = {}
 
-M.VERSION = "1.0.0"  -- höj vid ändringar: tredje siffran för rättningar, andra för nya funktioner
+M.VERSION = "1.0.1"  -- höj vid ändringar: tredje siffran för rättningar, andra för nya funktioner
 
 -- Projektmappen räknas fram från var den här filen ligger, så att mappen kan ligga var som helst.
 local HEM = debug.getinfo(1, "S").source:sub(2):match("^(.*)/hammerspoon/[^/]*$")
@@ -87,7 +87,7 @@ local function vantaPaRedo(forsok)
       senare(0.5, function() vantaPaRedo(forsok + 1) end)
     else
       visa("fel")
-      hs.alert.show("Pianissimo: tjänsten startade inte, se loggen")
+      hs.alert.show("Prata: tjänsten startade inte, se loggen")
     end
   end)
 end
@@ -107,7 +107,7 @@ local function startaTjanst()
     if omstarter <= 3 then
       senare(2 * omstarter, startaTjanst)
     else
-      hs.alert.show("Pianissimo: tjänsten kraschar upprepade gånger, se loggen")
+      hs.alert.show("Prata: tjänsten kraschar upprepade gånger, se loggen")
     end
   end, { "-c", string.format('exec "%s" "%s" >> "%s" 2>&1', PYTHON, SERVER, LOGG) })
   task:start()
@@ -128,18 +128,18 @@ end
 -- Tangenten -----------------------------------------------------------------
 
 local function tangent()
-  local id = hs.settings.get("pianissimo.tangent")
+  local id = hs.settings.get("prata.tangent")
   for _, t in ipairs(TANGENTER) do if t.id == id then return t end end
   return TANGENTER[1]
 end
 
 local function lage()
-  return hs.settings.get("pianissimo.lage") == "toggle" and "toggle" or "push"
+  return hs.settings.get("prata.lage") == "toggle" and "toggle" or "push"
 end
 
 local function borjaSpela()
   if not redo then
-    hs.alert.show("Pianissimo laddar fortfarande modellen …", 1)
+    hs.alert.show("Prata laddar fortfarande modellen …", 1)
     return
   end
   spelar, startTid = true, hs.timer.secondsSinceEpoch()
@@ -160,7 +160,7 @@ local function slutaSpela()
   post("/stop", function(status, body)
     visa(redo and "redo" or "fel")
     if status ~= 200 then
-      hs.alert.show("Pianissimo: transkriberingen misslyckades")
+      hs.alert.show("Prata: transkriberingen misslyckades")
       return
     end
     local ok, data = pcall(hs.json.decode, body)
@@ -249,7 +249,7 @@ local function larIn()
       { ["Content-Type"] = "application/json" }, function(status, body)
         local ok, data = pcall(hs.json.decode, body)
         data = ok and data or {}
-        hs.alert.show(data.meddelande or data.fel or "Pianissimo: kunde inte spara rättningen", 2)
+        hs.alert.show(data.meddelande or data.fel or "Prata: kunde inte spara rättningen", 2)
       end)
     senare(0.2, function()
       hs.pasteboard.setContents(fore .. ratt .. efter)
@@ -274,7 +274,7 @@ function M.visaHjalp()
     -- fullSizeContentView: sidans bakgrund fyller även titelraden. Annars är titelraden genomskinlig,
     -- eftersom Hammerspoons webbfönster saknar egen fönsterbakgrund.
     :windowStyle({ "titled", "closable", "miniaturizable", "resizable", "fullSizeContentView" })
-    :windowTitle("Pianissimo – hjälp")
+    :windowTitle("Prata – hjälp")
     :level(hs.drawing.windowLevels.normal)  -- ett vanligt fönster, inte ovanpå allt (undvik bringToFront)
     :shadow(true)
     :allowTextEntry(true)
@@ -286,16 +286,24 @@ end
 -- Start ---------------------------------------------------------------------
 
 function M.start()
+  -- Verktyget hette Pianissimo-diktering i version 1.0.0: flytta över sparade val.
+  for _, nyckel in ipairs({ "tangent", "lage" }) do
+    local gammal = hs.settings.get("pianissimo." .. nyckel)
+    if gammal ~= nil then
+      if hs.settings.get("prata." .. nyckel) == nil then hs.settings.set("prata." .. nyckel, gammal) end
+      hs.settings.clear("pianissimo." .. nyckel)
+    end
+  end
   meny = hs.menubar.new()
   meny:setMenu(function()
     return {
       { title = instruktion(), disabled = true },
       { title = "-" },
       { title = "Tangent", menu = hs.fnutils.imap(TANGENTER, function(t)
-          return { title = t.namn, checked = (t.id == tangent().id), fn = function() byt("pianissimo.tangent", t.id) end }
+          return { title = t.namn, checked = (t.id == tangent().id), fn = function() byt("prata.tangent", t.id) end }
         end) },
       { title = "Läge", menu = hs.fnutils.imap(LAGEN, function(l)
-          return { title = l.namn, checked = (l.id == lage()), fn = function() byt("pianissimo.lage", l.id) end }
+          return { title = l.namn, checked = (l.id == lage()), fn = function() byt("prata.lage", l.id) end }
         end) },
       { title = "-" },
       { title = "Redigera ordlistan", fn = function() hs.execute('open -t "' .. HEM .. '/ordlista.txt"') end },
@@ -310,7 +318,7 @@ function M.start()
           senare(0.5, startaTjanst)
         end },
       { title = "-" },
-      { title = "Pianissimo " .. M.VERSION, disabled = true },
+      { title = "Prata " .. M.VERSION, disabled = true },
     }
   end)
   M.larInTangent = hs.hotkey.bind(LAR_IN_TANGENT[1], LAR_IN_TANGENT[2], nil, larIn)

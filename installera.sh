@@ -1,5 +1,5 @@
 #!/bin/sh
-# Installerar Pianissimo-diktering. Kör från projektmappen: ./installera.sh
+# Installerar Prata. Kör från projektmappen: ./installera.sh
 # Kan köras om, till exempel för att bygga om Python-miljön.
 set -e
 MAPP="$(cd "$(dirname "$0")" && pwd)"
@@ -29,13 +29,13 @@ else
   mkdir -p "$HOME/.hammerspoon"
   cat >> "$INIT" <<LUA
 
--- Pianissimo-diktering
+-- Prata (diktering)
 require("hs.ipc")
-pianissimo = dofile("$MAPP/hammerspoon/dikt.lua")
-pianissimo.start()
-hs.shutdownCallback = function() pianissimo.stopp() end
+prata = dofile("$MAPP/hammerspoon/dikt.lua")
+prata.start()
+hs.shutdownCallback = function() prata.stopp() end
 LUA
-  echo "Lade till Pianissimo i $INIT."
+  echo "Lade till Prata i $INIT."
 fi
 
 cat <<TEXT
