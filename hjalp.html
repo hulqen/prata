@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<title>Pianissimo – hjälp</title>
+<style>
+  :root { --bg: #ffffff; --text: #1d1d1f; --dim: #6e6e73; --line: #e5e5ea; --kbd: #f2f2f7; --accent: #c0392b; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #1e1e1e; --text: #f2f2f7; --dim: #a1a1a6; --line: #3a3a3c; --kbd: #2c2c2e; --accent: #ff6b5e; }
+  }
+  body { background: var(--bg); color: var(--text); font: 14px/1.5 -apple-system, BlinkMacSystemFont, sans-serif; margin: 0; padding: 48px 28px 32px; }  /* 48px: plats för titelraden */
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  .ingress { color: var(--dim); margin: 0 0 18px; }
+  h2 { font-size: 15px; margin: 22px 0 6px; padding-top: 14px; border-top: 1px solid var(--line); }
+  p, ul { margin: 6px 0; }
+  ul { padding-left: 20px; }
+  li { margin: 3px 0; }
+  kbd { background: var(--kbd); border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; font: 12px ui-monospace, Menlo, monospace; }
+  code { font: 12px ui-monospace, Menlo, monospace; background: var(--kbd); padding: 0 4px; border-radius: 3px; }
+  .nu { background: var(--kbd); border-left: 3px solid var(--accent); padding: 8px 12px; border-radius: 4px; }
+  table { border-collapse: collapse; margin: 6px 0; }
+  td { padding: 3px 12px 3px 0; vertical-align: top; }
+  footer { margin-top: 28px; padding-top: 14px; border-top: 1px solid var(--line); color: var(--dim); font-size: 12px; }
+  footer p { margin: 3px 0; }
+  .prick { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+</style>
+</head>
+<body>
+
+<h1>Pianissimo</h1>
+<p class="ingress">Diktering på svenska i valfri app. Talet tolkas av modellen Pianissimo från KlangAI, som körs helt på den här datorn. Inget ljud och ingen text skickas ut på nätet.</p>
+
+<div class="nu"><strong>Just nu:</strong> {{INSTRUKTION}}.</div>
+
+<h2>Diktera</h2>
+<ul>
+  <li><strong>Håll in och prata</strong> (standard): håll in tangenten medan du pratar. När du släpper den klistras texten in där markören står.</li>
+  <li><strong>Tryck för att starta och stoppa</strong>: tryck kort en gång för att börja, prata, och tryck kort igen för att klistra in. <kbd>Esc</kbd> avbryter utan att något klistras in.</li>
+  <li>Tangent och läge väljer du under <em>Tangent</em> och <em>Läge</em> i menyn. Valen sparas.</li>
+  <li>Ett mellanslag läggs till efter texten, så att nästa diktering inte klistras ihop med den förra.</li>
+  <li>Det som låg i urklipp läggs tillbaka efter inklistringen.</li>
+</ul>
+
+<h2>Ikonen i menyraden</h2>
+<table>
+  <tr><td><span class="prick" style="background:var(--dim)"></span>Svartvit</td><td>Redo. Med <code>…</code> bredvid laddas modellen fortfarande, vilket tar några sekunder efter start.</td></tr>
+  <tr><td><span class="prick" style="background:#f23333"></span>Röd</td><td>Spelar in.</td></tr>
+  <tr><td><span class="prick" style="background:#4d8cff"></span>Blå</td><td>Tolkar talet. Det tar oftast under en halv sekund.</td></tr>
+  <tr><td><span class="prick" style="background:#ffa600"></span>Orange</td><td>Något är fel med tjänsten. Se <em>Om något krånglar</em> nedan.</td></tr>
+</table>
+<p>Den orangea pillren med en vit mikrofon längst upp till höger är macOS egen indikator. Den visas när något program använder mikrofonen och går inte att stänga av. Lyser den när du inte dikterar: klicka på den, så visar Kontrollcenter vilket program det är.</p>
+
+<h2>När det blir fel ord</h2>
+<p>Det finns två sätt att lära Pianissimo att stava rätt. De gör olika saker.</p>
+<ul>
+  <li><strong>Ersättningar</strong> byter ut en felstavning mot rätt stavning efter att talet tolkats. Använd dem när modellen konsekvent skriver fel, särskilt när två stavningar låter exakt likadant, som <em>Waldemar</em> och <em>Valdemar</em>. Det här är det säkraste sättet.</li>
+  <li><strong>Ordlistan</strong> gör att modellen hellre väljer ett visst ord medan den lyssnar. Den hjälper när modellen tvekar mellan ord som låter olika, till exempel namn och facktermer. Den kan inte rätta W/V eller andra stavningar som låter likadant.</li>
+</ul>
+
+<h2>Lär in en rättning direkt: <kbd>⌃</kbd><kbd>⌥</kbd><kbd>R</kbd></h2>
+<ul>
+  <li>Markera den felstavade texten där du skriver och tryck <kbd>⌃</kbd><kbd>⌥</kbd><kbd>R</kbd>.</li>
+  <li>Skriv rätt stavning i rutan och tryck <kbd>Retur</kbd>.</li>
+  <li>Den markerade texten byts ut, och felstavningen läggs till bland ersättningarna. Från nästa diktering rättas den automatiskt.</li>
+  <li>Punkt, komma och mellanslag runt markeringen står kvar. Komma och likhetstecken kan inte ingå i själva ersättningen.</li>
+</ul>
+
+<h2>Redigera filerna själv</h2>
+<p>Välj <em>Redigera ordlistan</em> eller <em>Redigera ersättningar</em> i menyn. Ändringarna gäller från nästa diktering, ingen omstart behövs.</p>
+<ul>
+  <li><code>ordlista.txt</code>: en term per rad, skriven exakt som den ska stavas.</li>
+  <li><code>ersattningar.txt</code>: <code>Rätt stavning = felstavning, felstavning</code>. Hela ord och fraser byts, oavsett stora eller små bokstäver.</li>
+  <li>Rader som börjar med <code>#</code> är kommentarer.</li>
+</ul>
+
+<h2>Bra att veta</h2>
+<ul>
+  <li>Tryck kortare än 0,3 sekunder räknas som misstag och kastas.</li>
+  <li>Använder du dikteringstangenten för att skriva ett tecken, till exempel <kbd>⌥</kbd><kbd>2</kbd> för @, avbryts dikteringen och tecknet skrivs som vanligt.</li>
+  <li>Hela meningar ger bättre resultat än enstaka ord, eftersom modellen får mer sammanhang.</li>
+  <li>Väljer du <em>fn / 🌐</em> som tangent: ställ in <em>Tryck på 🌐-tangenten för att</em> på <em>Gör ingenting</em> under Systeminställningar &gt; Tangentbord, annars startar macOS egen funktion samtidigt.</li>
+</ul>
+
+<h2>Om något krånglar</h2>
+<ul>
+  <li><strong>Inget händer när du trycker:</strong> kontrollera att Hammerspoon är påslaget under Systeminställningar &gt; Integritet och säkerhet &gt; Hjälpmedel.</li>
+  <li><strong>Texten blir tom:</strong> kontrollera att Hammerspoon har behörighet under Integritet och säkerhet &gt; Mikrofon.</li>
+  <li><strong>Ikonen är orange eller inget fungerar:</strong> välj <em>Starta om tjänsten</em> i menyn och vänta några sekunder.</li>
+  <li><strong>Mikrofonen fastnar:</strong> tjänsten upptäcker det själv efter tre sekunder och startar om.</li>
+  <li><em>Visa logg</em> visar varje diktering med tid och text, och vad som rättats av ersättningarna.</li>
+</ul>
+
+<h2>Uppdateringar</h2>
+<ul>
+  <li><strong>Python:</strong> Pianissimo kör i en egen Python-miljö (3.12) i mappen <code>.venv</code> i projektmappen, byggd på Homebrews Python. Vanliga uppdateringar med <code>brew upgrade</code> påverkar den inte, och systemets Python berörs aldrig. Behörigheterna för mikrofon och hjälpmedel ligger på Hammerspoon och påverkas inte heller.</li>
+  <li><strong>Om Python ändå skulle försvinna</strong>, till exempel om <code>python@3.12</code> avinstalleras, startar inte tjänsten och ikonen blir orange. Bygg då om miljön genom att köra <code>./installera.sh</code> i projektmappen i Terminal, och välj sedan <em>Starta om tjänsten</em>.</li>
+  <li><strong>Modellen:</strong> vid varje start kontrollerar tjänsten om KlangAI har publicerat en ny version av modellen och hämtar den i så fall. Utan internet används den version som redan finns på datorn.</li>
+  <li><strong>Hammerspoon</strong> uppdaterar sig själv och frågar först.</li>
+</ul>
+
+<h2>Var allt ligger</h2>
+<p>Allt finns i projektmappen, i den här installationen <code>{{MAPP}}</code>. Tjänsten startas av Hammerspoon, som startar vid inloggning om du slagit på det i Hammerspoons inställningar. Mer om installation och tester finns i <code>README.md</code>.</p>
+
+<footer>
+  <p><strong>Pianissimo-diktering, version {{VERSION}}</strong></p>
+  <p>Utvecklad av Johan Wallén tillsammans med Claude (Opus 5.5) från Anthropic, oktober 2026.</p>
+  <p>Talet tolkas av modellen Pianissimo från KlangAI (<code>KlangAI/pianissimo-sv-mlx-8bit</code>). Den är en svensk finjustering av NVIDIA Parakeet TDT 0.6B v3, i en 8-bitarsversion för Apple silicon.</p>
+  <p>Byggd med parakeet-mlx 0.5.2, MLX, sounddevice och Hammerspoon.</p>
+</footer>
+
+</body>
+</html>

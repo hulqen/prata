@@ -1,0 +1,6 @@
+# Testade versioner. parakeet-mlx 0.5.2 krävs av modellens egen laddare (pianissimo_mlx.py).
+parakeet-mlx==0.5.2
+mlx==0.32.3
+huggingface-hub==2.2.0
+sentencepiece==0.2.2
+sounddevice==0.5.6

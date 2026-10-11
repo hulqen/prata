@@ -1,0 +1,14 @@
+# Python-miljön byggs av installera.sh
+.venv/
+__pycache__/
+# Loggar
+logg/
+# Egna filer som kan innehålla namn och kunder. Exempelfilerna (*.exempel.txt) versionshanteras.
+ordlista.txt
+ersattningar.txt
+ANTECKNINGAR.md
+# Testljud skapas av test/kor_alla.sh
+test/*.aiff
+# Utforskande skript från utvecklingen
+test/boost.py
+test/boost2.py

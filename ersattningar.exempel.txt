@@ -1,0 +1,6 @@
+# Ersättningar som görs efter transkriberingen. Använd när ordlistan inte räcker,
+# till exempel när två stavningar låter exakt likadant (W/V).
+# Format: Rätt stavning = felstavning, felstavning, ...
+# Hela ord och fraser byts, oavsett stora eller små bokstäver. Gäller från nästa diktering.
+# Markera en felstavning i valfri app och tryck ⌃⌥R för att lägga till en rad härifrån.
+Waldemarsudde = Valdemarsudde

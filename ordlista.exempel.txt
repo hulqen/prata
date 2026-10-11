@@ -1,0 +1,4 @@
+# Ordlista för Pianissimo. En term per rad, skriven exakt som den ska stavas (skiftlägeskänsligt).
+# Ordlistan gör att modellen hellre väljer de här orden när den tvekar, till exempel namn och facktermer.
+# Rader som börjar med # ignoreras. Ändringar gäller från nästa diktering, ingen omstart behövs.
+Hammerspoon
