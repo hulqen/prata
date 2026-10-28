@@ -4,7 +4,7 @@
 
 local M = {}
 
-M.VERSION = "1.1.1"  -- höj vid ändringar: tredje siffran för rättningar, andra för nya funktioner
+M.VERSION = "1.1.2"  -- höj vid ändringar: tredje siffran för rättningar, andra för nya funktioner
 
 -- Projektmappen räknas fram från var den här filen ligger, så att mappen kan ligga var som helst.
 local HEM = debug.getinfo(1, "S").source:sub(2):match("^(.*)/hammerspoon/[^/]*$")
@@ -144,7 +144,13 @@ local function borjaSpela()
   end
   spelar, startTid = true, hs.timer.secondsSinceEpoch()
   visa("spelar")
-  post("/start")
+  post("/start", function(status)
+    if status ~= 200 and spelar then
+      spelar = false
+      visa(redo and "redo" or "fel")
+      hs.alert.show("Prata: mikrofonen gick inte att öppna, se loggen")
+    end
+  end)
 end
 
 local function avbryt()

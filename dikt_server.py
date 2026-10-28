@@ -146,6 +146,7 @@ class Diktering:
         self.lock = threading.Lock()
         self.stream = None
         self.chunks = []
+        self.starta_om = False
 
     def _ladda(self):
         t = time.perf_counter()
@@ -173,26 +174,40 @@ class Diktering:
                 return
             self.chunks = []
             self.forsta_ljud = threading.Event()
-            self.stream = sd.InputStream(samplerate=SR, channels=1, dtype="float32", callback=self._callback)
-            self.stream.start()
+            try:
+                self.stream = self._oppna()
+            except sd.PortAudioError as e:
+                # PortAudio läser in ljudenheterna en gång, vid start. Har en enhet kopplats in eller ur
+                # sedan dess pekar listan på enheter som inte finns och öppningen misslyckas. Läs in
+                # listan på nytt och försök igen.
+                logga("Mikrofonen gick inte att öppna, läser in ljudenheterna på nytt:", repr(e))
+                sd._terminate()
+                sd._initialize()
+                self.stream = self._oppna()
             # Att stänga strömmen innan macOS levererat första ljudet kan låsa PortAudio (dödläge i
             # AudioOutputUnitStop). Vänta därför tills ljudet faktiskt flödar.
             if not self.forsta_ljud.wait(STARTTID_MAX):
                 logga("Varning: inget ljud från mikrofonen efter", STARTTID_MAX, "s")
+
+    def _oppna(self):
+        stream = sd.InputStream(samplerate=SR, channels=1, dtype="float32", callback=self._callback)
+        stream.start()
+        return stream
 
     def _stoppa(self):
         with self.lock:
             if self.stream is None:
                 return None
             stream, self.stream = self.stream, None
-            # Skyddsnät: om stängningen ändå låser sig avslutas tjänsten. Då släpper macOS mikrofonen
+            # Skyddsnät: om stängningen ändå låser sig startas tjänsten om, men först när svaret har
+            # skickats, så att det inspelade ljudet hinner transkriberas. Då släpper macOS mikrofonen
             # och Hammerspoon startar en ny tjänst.
             t = threading.Thread(target=lambda: (stream.stop(), stream.close()), daemon=True)
             t.start()
             t.join(STOPPTID_MAX)
             if t.is_alive():
-                logga(f"Ljudet låste sig vid stängning i mer än {STOPPTID_MAX} s, tjänsten startar om")
-                os._exit(3)
+                logga(f"Ljudet låste sig vid stängning i mer än {STOPPTID_MAX} s, tjänsten startar om efter svaret")
+                self.starta_om = True
             return np.concatenate(self.chunks) if self.chunks else np.zeros(0, dtype=np.float32)
 
     def avbryt(self):
@@ -269,6 +284,9 @@ def main():
             except Exception as e:  # svara alltid, så att Hammerspoon inte hänger
                 logga("Fel:", repr(e))
                 self._svara({"fel": str(e)}, 500)
+            if d.starta_om:
+                self.wfile.flush()
+                os._exit(3)
 
         def log_message(self, *args):
             pass
